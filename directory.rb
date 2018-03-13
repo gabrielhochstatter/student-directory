@@ -41,7 +41,8 @@ def print_menu # prints the menu with user options
   puts "Please choose from the following options:"
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
+  puts "3. Save the list to file"
+  puts "4. Load list of students from file"
   puts "9. Exit"
 end
 
@@ -65,28 +66,40 @@ def save_students # saves list of students to CSV file
     file.puts csv_line
   }
   file.close
-  puts "List of students saved to students.csv!"
+  puts "List of students saved to file!"
+end
+
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each { |line|
+    name, cohort = line.chomp.split(",")
+    @students << {name: name, cohort: cohort.to_sym}
+  }
+  file.close
+  puts "List of students loaded from file!"
+end
+
+def process(selection)
+  case selection
+  when "1"
+    input_students
+  when "2"
+    show_students
+  when "3"
+    save_students
+  when "4"
+    load_students
+  when "9"
+    exit
+  else
+    puts "I don't know what you meant, try again"
+  end
 end
 
 def interactive_menu # runs the menu
   loop {
     print_menu
-    # save user input as a variable
-    selection = gets.chomp
-    # do what the user asked
-    case selection
-    when "1"
-      input_students
-    when "2"
-      show_students
-    when "3"
-      save_students
-    when "9"
-      exit
-    else
-      puts "I don't know what you meant, try again"
-
-    end
+    process(gets.chomp)
    }
 
 end
