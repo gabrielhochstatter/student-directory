@@ -33,16 +33,40 @@ def print_footer(names)
 end
 
 def no_students
-  puts "You did not enter any names!"
+  puts "There are no names in the list yet!"
 end
 
-# using the methods
-students = input_students
+def interactive_menu
+  students = []
+  loop {
+    # show the menu to the user
+    puts "Please choose from the following options:"
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+    # save user input as a variable
+    selection = gets.chomp
+    # do what the user asked
+    case selection
+    when "1"
+      students = input_students
+    when "2"
+      if students.empty?
+        no_students
+      else
+        print_header
+        print(students)
+        print_footer(students)
+      end
+    when "9"
+      exit
+    else
+      puts "I don't know what you meant, try again"
 
-if students.empty?
-  no_students
-else
-  print_header
-  print(students)
-  print_footer(students)
+    end
+
+   }
+
 end
+
+interactive_menu
