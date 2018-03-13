@@ -25,15 +25,24 @@ def print_header
 end
 
 def print(students)
-  students.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)" }
+  students.each_with_index { |student , i| puts "#{i + 1}. #{student[:name]} (#{student[:cohort]} cohort)" }
 end
 
 def print_footer(names)
   puts "Overall, we have #{names.count} great students"
 end
 
+def no_students
+  puts "You did not enter any names!"
+end
+
 # using the methods
 students = input_students
-print_header
-print(students)
-print_footer(students)
+
+if students.empty?
+  no_students
+else
+  print_header
+  print(students)
+  print_footer(students)
+end
