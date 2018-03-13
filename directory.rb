@@ -41,6 +41,7 @@ def print_menu # prints the menu with user options
   puts "Please choose from the following options:"
   puts "1. Input the students"
   puts "2. Show the students"
+  puts "3. Save the list to students.csv"
   puts "9. Exit"
 end
 
@@ -54,6 +55,19 @@ def show_students # shows the list of students with header/footer or an error if
   end
 end
 
+def save_students # saves list of students to CSV file
+  # open the file
+  file = File.open("students.csv", "w")
+  # iterate over array of students
+  @students.each { |student|
+    student_data = [student[:name], student[:cohort]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  }
+  file.close
+  puts "List of students saved to students.csv!"
+end
+
 def interactive_menu # runs the menu
   loop {
     print_menu
@@ -65,6 +79,8 @@ def interactive_menu # runs the menu
       input_students
     when "2"
       show_students
+    when "3"
+      save_students
     when "9"
       exit
     else
